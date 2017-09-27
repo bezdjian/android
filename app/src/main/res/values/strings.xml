@@ -4,4 +4,8 @@
     <string name="lastname">Lastname</string>
     <string name="ok">OK</string>
     <string name="onClickOK">void</string>
+    <string name="success">Success!</string>
+    <string name="ioerror">IO Error!</string>
+    <string name="protocolerror">Protocol Error!</string>
+    <string name="malformederror">Malformed Error!</string>
 </resources>

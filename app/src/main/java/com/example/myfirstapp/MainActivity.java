@@ -1,5 +1,6 @@
 package com.example.myfirstapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,7 +23,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     static String MY_REST_API_URL = "http://10.0.2.2:8090/rest/student/";
     //static String MY_REST_API_URL = "http://10.0.2.2:8080/test.php";
 
+    private TextView hello;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText firstname = (EditText) findViewById(R.id.firstname);
         final EditText lastname = (EditText) findViewById(R.id.lastname);
-        final TextView hello = (TextView) findViewById(R.id.hello);
+        hello = (TextView) findViewById(R.id.hello);
         final Button okButton = (Button) findViewById(R.id.button);
         okButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -48,13 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 new AjaxRequestTask().execute(first, last);
             }
         });
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private class AjaxRequestTask extends AsyncTask<String, String, String> {
 
         static final int CONNECTION_TIMEOUT=10000;
         static final int READ_TIMEOUT=15000;
-        ProgressBar  progressBar;
         HttpURLConnection conn;
         URL url = null;
 
@@ -62,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             //this method will be running on UI thread untill Ajax call is done.
-            progressBar = new ProgressBar(MainActivity.this, null, android.R.attr.progressBarStyleSmall);
+            //progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            Log.v("progress", "HI!");
             progressBar.setVisibility(View.VISIBLE);
         }
 
@@ -123,22 +133,42 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return "exception";
+                return "exception Malformed";
             } catch (ProtocolException e) {
                 e.printStackTrace();
-                return "exception";
+                return "exception Protocol";
             } catch (IOException e) {
                 e.printStackTrace();
-                return "exception";
+                return "exception IO";
             }
         }
 
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
+            Log.v("Result", "OUT OF IF - RESULT: " + result);
             //result is the string text coming from the api function we called.
-            if(!result.equalsIgnoreCase("unsuccessful")){
-                Log.v("Result", "IN IF - RESULT: " + result);
+            if(result.contains("IO")){
+                MainActivity.this.hello.setText(R.string.ioerror);
+            }else if(result.contains("protocol")) {
+                //MainActivity.this.hello.setText(R.string.error);
+                MainActivity.this.hello.setText(R.string.protocolerror);
+            }else if(result.contains("malformed")) {
+                //MainActivity.this.hello.setText(R.string.error);
+                MainActivity.this.hello.setText(R.string.malformederror);
+            }else{
+                Intent intent = new Intent(MainActivity.this, SuccessActivity.class);
+                //Send result to SuccessActivity
+                try{
+                    JSONObject json = new JSONObject(result);
+                    intent.putExtra("result", json.toString());
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    Log.v("JSON", "JSON Exception");
+                }
+
             }
         }
 
