@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 //MainActivity.this.hello.setText(R.string.error);
                 MainActivity.this.hello.setText(R.string.malformederror);
             }else{
+                //new Intent, puts data in so you can get it from the other activity.
                 Intent intent = new Intent(MainActivity.this, SuccessActivity.class);
                 //Send result to SuccessActivity
                 try{
