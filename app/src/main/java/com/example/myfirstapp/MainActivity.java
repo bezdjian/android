@@ -1,16 +1,22 @@
 package com.example.myfirstapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
     static String MY_REST_API_URL = "http://10.0.2.2:8090/rest/student/";
     //static String MY_REST_API_URL = "http://10.0.2.2:8080/test.php";
 
-    private TextView hello;
     private ProgressBar progressBar;
+    private String subjectSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +50,34 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText firstname = (EditText) findViewById(R.id.firstname);
         final EditText lastname = (EditText) findViewById(R.id.lastname);
-        hello = (TextView) findViewById(R.id.hello);
+        final AutoCompleteTextView autoCompleteTextView =
+                (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+
+        final String[] subjectsArray = {"Java","C#","Python","Swift","PHP"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,subjectsArray);
+
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
+        // Make it like 100% width.
+        autoCompleteTextView.setDropDownWidth(point.x);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setAdapter(adapter);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                subjectSelected = (String) adapterView.getAdapter().getItem(i).toString();
+            }
+        });
+
         final Button okButton = (Button) findViewById(R.id.button);
         okButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                hello.setText(firstname.getText()  + " " + lastname.getText());
                 String first = firstname.getText().toString();
                 String last = lastname.getText().toString();
-                new AjaxRequestTask().execute(first, last);
+                String subject = autoCompleteTextView.getText().toString();
+                new AjaxRequestTask().execute(first, last, subject);
             }
         });
 
@@ -81,32 +106,21 @@ public class MainActivity extends AppCompatActivity {
             //Do AJAX Request
             try {
                 // Enter URL address where your file resides
-                url = new URL(MY_REST_API_URL + "/add/?name="+params[0]+"&subject="+params[1]);
+                String fullname = params[0] + " " + params[1];
+                // Adds to mysql
+                url = new URL(MY_REST_API_URL + "/addStudent/?name="+fullname+"&subject="+params[2]);
+                // Adds to hashmap
+                // url = new URL(MY_REST_API_URL + "/add/?name="+fullname+"&subject="+params[2]);
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST"); // Getting 405 responseCode here..
+                conn.setRequestMethod("POST"); // Make sure you have method = RequestMethod.POST on your API service.
                 conn.setRequestProperty("Accept-Charset", "UTF-8");
                 conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
                 //conn.setDoOutput(true);
-
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("name", params[0])
-                        .appendQueryParameter("subject", params[1]);
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
                 conn.connect();
                 Log.v("response", "conn.getResponseMessage(): --- " + conn.getResponseMessage() + ":" + conn.getResponseCode());
 
@@ -146,28 +160,34 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
+            Context context = getApplicationContext();
+
             Log.v("Result", "OUT OF IF - RESULT: " + result);
             //result is the string text coming from the api function we called.
             if(result.contains("IO")){
-                MainActivity.this.hello.setText(R.string.ioerror);
+                Toast toast = Toast.makeText(context, R.string.ioerror, Toast.LENGTH_LONG);
+                toast.show();
             }else if(result.contains("protocol")) {
-                //MainActivity.this.hello.setText(R.string.error);
-                MainActivity.this.hello.setText(R.string.protocolerror);
+                Toast toast = Toast.makeText(context, R.string.protocolerror, Toast.LENGTH_LONG);
+                toast.show();
             }else if(result.contains("malformed")) {
-                //MainActivity.this.hello.setText(R.string.error);
-                MainActivity.this.hello.setText(R.string.malformederror);
+                Toast toast = Toast.makeText(context, R.string.malformederror, Toast.LENGTH_LONG);
+                toast.show();
             }else{
                 //new Intent, puts data in so you can get it from the other activity.
                 Intent intent = new Intent(MainActivity.this, SuccessActivity.class);
                 //Send result to SuccessActivity
                 try{
-                    JSONObject json = new JSONObject(result);
-                    intent.putExtra("result", json.toString());
+                    JSONArray jsonArray = new JSONArray(result);
+
+                    intent.putExtra("result", jsonArray.toString());
                     startActivity(intent);
                     MainActivity.this.finish();
                 }catch (JSONException e){
                     e.printStackTrace();
                     Log.v("JSON", "JSON Exception");
+                    Toast toast = Toast.makeText(context, R.string.unsuccessfull, Toast.LENGTH_LONG);
+                    toast.show();
                 }
 
             }
