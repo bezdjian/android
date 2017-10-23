@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         final AutoCompleteTextView autoCompleteTextView =
                 (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
 
-        final String[] subjectsArray = {"Java","C#","Python","Swift","PHP"};
+        //Here I should get the values from database.
+        final String[] subjectsArray = {"Java","C Sharp","Python","Swift","PHP"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,subjectsArray);
 
         Point point = new Point();

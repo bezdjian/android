@@ -26,7 +26,7 @@ public class SuccessActivity extends AppCompatActivity {
         TextView textViewID = (TextView) findViewById(R.id.textViewID);
         TextView textViewFullname = (TextView) findViewById(R.id.textViewFullname);
         TextView textViewSubject = (TextView) findViewById(R.id.textViewSubject);
-        TextView textViewCreated = (TextView) findViewById(R.id.textViewCreated);
+        //TextView textViewCreated = (TextView) findViewById(R.id.textViewCreated);
         TextView textViewSubjectDescription = (TextView) findViewById(R.id.textViewSubjectDescription);
 
         Intent extras = getIntent();
@@ -46,19 +46,19 @@ public class SuccessActivity extends AppCompatActivity {
 
                         switch (key){
                             case "studentId":
-                                textViewID.setText("ID: " + objValue);
+                                textViewID.setText(objValue.toString());
                                 break;
-                            case "studentName":
-                                textViewFullname.setText("Fullname: " + objValue);
+                            case "studentFullname":
+                                textViewFullname.setText(objValue.toString());
                                 break;
                             case "studentSubject":
-                                textViewSubject.setText("Subject: " + objValue);
+                                textViewSubject.setText(objValue.toString());
                                 break;
-                            case "dateAdded":
-                                textViewCreated.setText("Created: " + objValue);
+                            case "studentDateCreated":
+                                //textViewCreated.setText(objValue.toString());
                                 break;
                             case "subjectDescription":
-                                textViewSubjectDescription.setText("Description: " + objValue);
+                                textViewSubjectDescription.setText(objValue.toString());
                                 break;
                         }
                     }

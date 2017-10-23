@@ -9,6 +9,10 @@
     <string name="ioerror">IO Error!</string>
     <string name="protocolerror">Protocol Error!</string>
     <string name="malformederror">Malformed Error!</string>
-    <string name="unsuccessfull">Unsuccessfull</string>
+    <string name="unsuccessfull">Unsuccessful</string>
+    <string name="description">Description</string>
+    <string name="fullanme">Fullname</string>
+    <string name="id">ID</string>
+    <string name="subject">Subject</string>
     <string name="selectsubject">Select subject</string>
 </resources>

@@ -13,5 +13,8 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+        boolean z = false;
+        String s = z ? "HA" : "NA";
+        System.out.println("HOLA: " + s);
     }
 }
