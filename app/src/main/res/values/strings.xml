@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">Learning App</string>
+    <string name="app_name">Totara LMS</string>
+    <string name="login">Log in</string>
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
     <string name="ok">OK</string>
     <string name="registerbtn">Start</string>
     <string name="onClickOK">void</string>
@@ -15,4 +19,5 @@
     <string name="id">ID</string>
     <string name="subject">Subject</string>
     <string name="selectsubject">Select subject</string>
+    <string name="invalidusernamepassword">Invalid username or password</string>
 </resources>

@@ -48,15 +48,15 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textViewID_text"
+                android:id="@+id/textViewUsername_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/id"
+                android:text="@string/username"
                 android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
             <TextView
-                android:id="@+id/textViewID"
+                android:id="@+id/textViewUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -71,15 +71,15 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textViewFullname_text"
+                android:id="@+id/textViewFirstname_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/fullanme"
+                android:text="@string/firstname"
                 android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
             <TextView
-                android:id="@+id/textViewFullname"
+                android:id="@+id/textViewFirstname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -95,15 +95,15 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textViewSubject_text"
+                android:id="@+id/textViewLastname_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/subject"
+                android:text="@string/lastname"
                 android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
             <TextView
-                android:id="@+id/textViewSubject"
+                android:id="@+id/textViewLastname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -118,28 +118,20 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textViewSubjectDescription_text"
+                android:id="@+id/textViewEmail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/description"
+                android:text="@string/email"
                 android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
-            <ScrollView
-                android:id="@+id/scrollerId"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:fillViewport="true">
-
                 <TextView
-                    android:id="@+id/textViewSubjectDescription"
+                    android:id="@+id/textViewEmail"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:padding="5dp"
                     android:text="sd"
                     android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-            </ScrollView>
         </TableRow>
     </TableLayout>
 

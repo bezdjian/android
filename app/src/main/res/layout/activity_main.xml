@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myfirstapp.MainActivity">
+    tools:context="com.example.totara.MainActivity">
 
     <EditText
-        android:id="@+id/firstname"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="83dp"
         android:ems="10"
-        android:hint="@string/firstname"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,28 +23,28 @@
         app:layout_constraintHorizontal_bias="0.502" />
 
     <EditText
-        android:id="@+id/lastname"
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
         android:ems="10"
-        android:hint="@string/lastname"
-        android:inputType="text"
+        android:hint="@string/password"
+        android:inputType="textPassword"
         android:text=""
-        app:layout_constraintLeft_toLeftOf="@+id/firstname"
-        app:layout_constraintTop_toBottomOf="@+id/firstname"
+        app:layout_constraintLeft_toLeftOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/username"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="103dp"
-        android:text="@string/registerbtn"
-        app:layout_constraintLeft_toLeftOf="@+id/lastname"
-        app:layout_constraintRight_toRightOf="@+id/lastname"
-        app:layout_constraintTop_toBottomOf="@+id/lastname"
+        android:layout_marginTop="24dp"
+        android:text="@string/login"
+        app:layout_constraintLeft_toLeftOf="@+id/password"
+        app:layout_constraintRight_toRightOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/password"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1"
@@ -68,7 +68,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/login"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -80,7 +80,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <AutoCompleteTextView
+    <!--AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
@@ -89,9 +89,9 @@
         android:dropDownHeight="wrap_content"
         android:dropDownWidth="match_parent"
         android:hint="@string/selectsubject"
-        app:layout_constraintLeft_toLeftOf="@+id/lastname"
-        app:layout_constraintTop_toBottomOf="@+id/lastname"
+        app:layout_constraintLeft_toLeftOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/password"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1" /-->
 
 </android.support.constraint.ConstraintLayout>
