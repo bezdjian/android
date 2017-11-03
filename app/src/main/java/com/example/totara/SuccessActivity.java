@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.totara.ajax.TotaraIntegrarion;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -118,26 +119,22 @@ public class SuccessActivity extends AppCompatActivity {
                 //Intent intent = new Intent(SuccessActivity.this, SuccessActivity.class);
                 //Send result to SuccessActivity
                 try{
-                    JSONObject jsonObject = new JSONObject(result);
+                    //JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = new JSONArray(result);
 
-                    Iterator<String> iterator = jsonObject.keys();
-                    while(iterator.hasNext()) {
-                        String key = iterator.next();
-                        Object objValue = jsonObject.get(key);
-                        Log.v("KEY----", key + "------ " + objValue.toString());
-                        switch (key){
-                            case "status":
-                                if(!objValue.toString().equals("success")){
-                                    Toast toast = Toast.makeText(context, R.string.invalidusernamepassword, Toast.LENGTH_LONG);
-                                    toast.show();
-                                }
-                                break;
-                            case "user":
-                                //Send the user json to success..
-                                JSONObject jsonObjectusers = new JSONObject(objValue.toString());
-                                break;
+                    for(int i=0; i<jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        Iterator<String> iterator = jsonObject.keys();
+                        while(iterator.hasNext()) {
+                            String key = iterator.next();
+                            Object objValue = jsonObject.get(key);
+                            Log.v("KEY course----", key + "------ " + objValue.toString());
+                            // Here you can get the objValue depending on the key.
                         }
                     }
+
+
                     /*JSONObject jsonObject = new JSONObject(result);
 
                     intent.putExtra("result", jsonObject.toString());

@@ -22,9 +22,7 @@ public class TotaraIntegrarion{
     private static final String REST_API_RESOURCE = "/webservice/rest/server.php?";
     private static final String REST_API_REST_FORMAT = "moodlewsrestformat=json";
     // This is for the local WS functions by the name of Android
-    private static final String REST_API_TOKEN_LOCAL = "wstoken=1AROBKTyOkh0fPDkflV78O2yQ5eI4lvQ";
-    // This is for the core WS functions by the name of WS Android
-    private static final String REST_API_TOKEN_CORE = "wstoken=hHQadSfScFunOTn2tWC0bAdCFc2a2Ak0";
+    private static final String REST_API_TOKEN = "wstoken=AXIGdJhq8uejniR80EGR7XEW0sdNqahI";
 
     //FUNCTIONS
     private static final String REST_API_FUNCTION_AUTHENTICATE = "wsfunction=local_android_services_auth_user";
@@ -35,7 +33,7 @@ public class TotaraIntegrarion{
 
     public static String authenticate(String username, String password){
         try{
-            url = new URL(REST_API_URL + REST_API_RESOURCE + "&username="+username+"&password="+password+"&"+REST_API_TOKEN_LOCAL+"&"+REST_API_FUNCTION_AUTHENTICATE+"&"+REST_API_REST_FORMAT);
+            url = new URL(REST_API_URL + REST_API_RESOURCE + "&username="+username+"&password="+password+"&"+REST_API_TOKEN+"&"+REST_API_FUNCTION_AUTHENTICATE+"&"+REST_API_REST_FORMAT);
             Log.v("doInBackground URL", url.toString());
 
             // Setup HttpURLConnection class to send and receive data from php and mysql
@@ -86,7 +84,7 @@ public class TotaraIntegrarion{
 
     public static String getUserCourses(int id){
         try{
-            url = new URL(REST_API_URL + REST_API_RESOURCE + "&userid="+id+"&"+REST_API_TOKEN_CORE+"&"+REST_API_FUNCTION_USER_COURSES+"&"+REST_API_REST_FORMAT);
+            url = new URL(REST_API_URL + REST_API_RESOURCE + "&userid="+id+"&"+REST_API_TOKEN+"&"+REST_API_FUNCTION_USER_COURSES+"&"+REST_API_REST_FORMAT);
             Log.v("doInBackground URL", url.toString());
 
             // Setup HttpURLConnection class to send and receive data from php and mysql
