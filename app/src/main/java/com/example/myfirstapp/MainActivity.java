@@ -3,19 +3,17 @@ package com.example.myfirstapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,12 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -37,8 +32,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     //localhost is for Android emulator, 10.0.2.2 is for the computer's localhost.
-    static String MY_REST_API_URL = "http://10.0.2.2:8090/rest/student/";
-    //static String MY_REST_API_URL = "http://10.0.2.2:8080/test.php";
+    //static String MY_REST_API_URL = "http://10.0.2.2:8090/rest/student/";
+    static String MY_REST_API_URL = "http://10.0.2.2:8081/rest/user/";
 
     private ProgressBar progressBar;
     private String subjectSelected;
@@ -48,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText firstname = (EditText) findViewById(R.id.firstname);
-        final EditText lastname = (EditText) findViewById(R.id.lastname);
-        final AutoCompleteTextView autoCompleteTextView =
-                (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        final EditText username = findViewById(R.id.username);
+        final EditText pass = findViewById(R.id.password);
+        final AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
 
         final String[] subjectsArray = {"Java","C#","Python","Swift","PHP"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,subjectsArray);
@@ -66,18 +60,18 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                subjectSelected = (String) adapterView.getAdapter().getItem(i).toString();
+                subjectSelected = adapterView.getAdapter().getItem(i).toString();
             }
         });
 
-        final Button okButton = (Button) findViewById(R.id.button);
+        final Button okButton = findViewById(R.id.button);
         okButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String first = firstname.getText().toString();
-                String last = lastname.getText().toString();
+                String first = username.getText().toString();
+                String password = pass.getText().toString();
                 String subject = autoCompleteTextView.getText().toString();
-                new AjaxRequestTask().execute(first, last, subject);
+                new AjaxRequestTask().execute(first, password, subject);
             }
         });
 
@@ -92,12 +86,14 @@ public class MainActivity extends AppCompatActivity {
         HttpURLConnection conn;
         URL url = null;
 
+        private String username = "";
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             //this method will be running on UI thread untill Ajax call is done.
             //progressBar = (ProgressBar) findViewById(R.id.progressBar);
-            Log.v("progress", "HI!");
+            Log.i("onPreExecute", "HI!");
             progressBar.setVisibility(View.VISIBLE);
         }
 
@@ -106,13 +102,13 @@ public class MainActivity extends AppCompatActivity {
             //Do AJAX Request
             try {
                 // Enter URL address where your file resides
-                String fullname = params[0] + " " + params[1];
-                // Adds to mysql
-                url = new URL(MY_REST_API_URL + "/addStudent/?name="+fullname+"&subject="+params[2]);
-                // Adds to hashmap
-                // url = new URL(MY_REST_API_URL + "/add/?name="+fullname+"&subject="+params[2]);
+                username = params[0];
+                String password = params[1];
+                Log.i("doInBackground", "Username: " + username + " - Password: " + password);
 
-                // Setup HttpURLConnection class to send and receive data from php and mysql
+                url = new URL(MY_REST_API_URL + "/userInfo/"+username+"/"+password);
+
+                // Setup HttpURLConnection class to send and receive data.
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST"); // Make sure you have method = RequestMethod.POST on your API service.
                 conn.setRequestProperty("Accept-Charset", "UTF-8");
@@ -122,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 conn.setDoInput(true);
                 //conn.setDoOutput(true);
                 conn.connect();
-                Log.v("response", "conn.getResponseMessage(): --- " + conn.getResponseMessage() + ":" + conn.getResponseCode());
+                Log.i("response", "conn.getResponseMessage(): --- " + conn.getResponseMessage() + ":" + conn.getResponseCode());
 
                 int response_code = conn.getResponseCode();
 
@@ -147,13 +143,13 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return "exception Malformed";
+                return "malformed";
             } catch (ProtocolException e) {
                 e.printStackTrace();
-                return "exception Protocol";
+                return "protocol";
             } catch (IOException e) {
                 e.printStackTrace();
-                return "exception IO";
+                return "IO"; //e.getMessage();
             }
         }
 
@@ -163,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             Context context = getApplicationContext();
 
             Log.v("Result", "OUT OF IF - RESULT: " + result);
-            //result is the string text coming from the api function we called.
+            //result is the string text coming from doInBackground we called.
             if(result.contains("IO")){
                 Toast toast = Toast.makeText(context, R.string.ioerror, Toast.LENGTH_LONG);
                 toast.show();
@@ -178,15 +174,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SuccessActivity.class);
                 //Send result to SuccessActivity
                 try{
-                    JSONArray jsonArray = new JSONArray(result);
+                    //JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonObject = new JSONObject(result);
 
-                    intent.putExtra("result", jsonArray.toString());
+                    //intent.putExtra("result", jsonArray.toString());
+                    intent.putExtra("result", jsonObject.toString());
                     startActivity(intent);
                     MainActivity.this.finish();
                 }catch (JSONException e){
                     e.printStackTrace();
                     Log.v("JSON", "JSON Exception");
-                    Toast toast = Toast.makeText(context, R.string.unsuccessfull, Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(context, R.string.NOT_FOUND, Toast.LENGTH_LONG);
                     toast.show();
                 }
 

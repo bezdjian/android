@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Learning App</string>
-    <string name="firstname">Firstname</string>
-    <string name="lastname">Lastname</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="ok">OK</string>
     <string name="registerbtn">Start</string>
     <string name="onClickOK">void</string>
@@ -9,6 +9,6 @@
     <string name="ioerror">IO Error!</string>
     <string name="protocolerror">Protocol Error!</string>
     <string name="malformederror">Malformed Error!</string>
-    <string name="unsuccessfull">Unsuccessfull</string>
+    <string name="NOT_FOUND">Username not found</string>
     <string name="selectsubject">Select subject</string>
 </resources>
