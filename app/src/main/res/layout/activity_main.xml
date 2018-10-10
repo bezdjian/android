@@ -16,10 +16,7 @@
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/password"
@@ -30,9 +27,7 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintTop_toBottomOf="@+id/username"/>
 
     <Button
         android:id="@+id/button"
