@@ -11,4 +11,5 @@
     <string name="malformederror">Malformed Error!</string>
     <string name="NOT_FOUND">Username not found</string>
     <string name="selectsubject">Select subject</string>
+    <string name="login">Login</string>
 </resources>

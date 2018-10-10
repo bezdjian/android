@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText username = findViewById(R.id.username);
         final EditText pass = findViewById(R.id.password);
-        final AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
+        //final AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
 
         final String[] subjectsArray = {"Java","C#","Python","Swift","PHP"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,subjectsArray);
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         // Make it like 100% width.
-        autoCompleteTextView.setDropDownWidth(point.x);
+        /*autoCompleteTextView.setDropDownWidth(point.x);
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(adapter);
 
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 subjectSelected = adapterView.getAdapter().getItem(i).toString();
             }
-        });
+        });*/
 
         final Button okButton = findViewById(R.id.button);
         okButton.setOnClickListener(new View.OnClickListener(){
@@ -70,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String first = username.getText().toString();
                 String password = pass.getText().toString();
-                String subject = autoCompleteTextView.getText().toString();
-                new AjaxRequestTask().execute(first, password, subject);
+                //String subject = autoCompleteTextView.getText().toString();
+                new AjaxRequestTask().execute(first, password, ""); //subject
             }
         });
 
